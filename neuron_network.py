@@ -18,27 +18,10 @@ class NeuralNetwork:
         self.output = sigmoid(np.dot(self.hidden, self.weights2))
         return self.output
 
-    # Calculate error and delta for output and hidden layer
-    def backpropagation(self, inputs, targets, learning_rate):
-        # Output layer
-        output_error = targets - self.output
-        output_delta = output_error * sigmoid_derivative(self.output)
-
-        # Hidden layer
-        hidden_error = np.dot(output_delta, self.weights2.T)
-        hidden_delta = hidden_error * sigmoid_derivative(self.hidden)
-
-        # Update weights for both layers
-        self.weights2 += learning_rate * np.dot(self.hidden.T, output_delta)
-        self.weights1 += learning_rate * np.dot(inputs.T, hidden_delta)
-
-    def train(self, inputs, targets, learning_rate, epochs):
+    def train(self, inputs, epochs):
         for i in range(epochs):
             output = self.feed_forward(inputs)
-            self.backpropagation(inputs, targets, learning_rate)
-
             if i % 10 == 0:
-                loss = np.mean(np.square(targets - output))
-                print("Epoch", i, "loss:", loss)
+                print("Epoch", i, "output:", output)
 
 
